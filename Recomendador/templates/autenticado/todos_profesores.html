@@ -1,0 +1,65 @@
+{% extends 'autenticado/base.html'%}
+
+{%block titulo%}Estudiante CalificaUD{%endblock titulo%}
+
+{%block styles%}
+<link href="{{STATIC_URL}}css/styles.css" rel="stylesheet">
+{%endblock styles%}
+
+{% block todos_profesores_active %}active{% endblock  %}
+
+
+{% block contenido %}
+
+  {% if docentes %}      
+      
+      <h1 class="text-center">Profesores</h1>
+      <table class="table table-bordered">
+        <tr>
+          <th>Nombre</th>
+          <th>Carrera</th>
+          <th>Materias</th>
+        </tr>
+
+        {% for docente in  docentes%}
+          <tr>
+            <td>{{docente.nombre}} {{docente.apellido}}</td>
+            <td>
+            {% for carrera in  docente.carrera.all%}
+              {{carrera.nombre|linebreaks}}
+            {% endfor %}
+            </td>            
+            <td>
+            {% for materia in  docente.materia.all %}
+              {{materia.nombre|linebreaks}}
+            {% endfor %}
+            </td>
+          </tr>          
+        {% endfor %}
+      </table>
+    {% else %}
+      <h1>No hay registros</h1>
+    {%endif%}
+
+{% endblock contenido %}
+
+{% comment %}
+{% for materia_docente in  materias_docente%}
+          <tr>            
+            <td>{{materia_docente.0.profesor.all.0.nombre}} {{materia_docente.0.profesor.all.0.apellido}}</td> 
+            <td>{{materia_docente.0.profesor.all}}</td>
+            <td>{{materia_docente.0.carrera}}</td>            
+            <td>
+              <table class="table table-bordered">
+          {% for materia in  materia_docente%}
+              <tr>
+                <td>{{materia.nombre}}</td>
+                <td>{{materia.carrera}}</td>
+              </tr>
+            
+          {% endfor %}        
+            </table>
+            </td>  
+          </tr>
+       {% endfor %}
+{% endcomment %}

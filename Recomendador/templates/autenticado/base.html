@@ -1,0 +1,61 @@
+{% extends 'base_general.html'%}
+
+{%block titulo%}Estudiante CalificaUD{%endblock titulo%}
+
+{%block styles%}
+	<link href="{{STATIC_URL}}css/styles.css" rel="stylesheet">
+{%endblock styles%}
+
+{% block cabecera %}
+	<!--Barra de navegacion-->
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+        <a class="brand" href="{% url 'index_private'%}">Recomiendame</a>
+        <div class="nav-collapse">
+          <ul class="nav">
+            <!--<li class="active"><a href="#">Home</a></li>-->
+            <li><a href="#contact">¿Tienes sugerencias?</a></li>
+            <li><a href="#about">Acerca de</a></li>
+          </ul>
+                  <div class="btn-group navbar-text pull-right">
+              <a class="btn" href="#" data-toggle="dropdown"><i class="icon-user"></i> {{user.nombre|title|truncatechars:15}} {{user.apellido|title|truncatechars:15}}</a>
+              <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="{% url 'actualizar'%}"><i class="icon-pencil"></i> Actualizar Datos personales</a></li>                
+                <li class="divider"></li>
+                <li><a href="{% url 'logout'%}"><i class="icon-off"></i> Cerrar sesi&oacute;n</a></li>
+              </ul>
+            </div>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+  </div>  
+{% endblock cabecera %}
+
+
+
+{% block cuerpo %}
+	<div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+                <li><a  class="btn {% block home_active %}{% endblock  %}" href="{% url 'index_private'%}"><i class="icon-home"></i>Home</a></li><br>
+                <li><a  class="btn {% block tengoLocal_active %}{% endblock  %}" href="{% url 'add_local'%}">Tengo un local</a></li><br>
+                <li><a  class="btn {% block misLocales_active %}{% endblock  %}" href="{% url 'add_local'%}">Mis locales</a></li><br>
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+        <div class="span9">
+        	{% block contenido %}{% endblock contenido %}         
+        </div><!--/span-->
+      </div><!--/row-->
+  </div>
+{% endblock cuerpo %}
+
