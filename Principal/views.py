@@ -2,7 +2,7 @@
 #from Principal import models
 from django.contrib.auth.decorators import login_required
 from django.contrib import auth
-from django.shortcuts import render, redirect ,render_to_response
+from django.shortcuts import render, redirect ,render_to_response, get_object_or_404
 from Principal.forms import *
 from django.template import RequestContext
 from django.views.decorators.cache import cache_control
@@ -16,7 +16,8 @@ def index_general(request):
 @login_required(login_url='index_general')
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def index_private(request):
-    return render_to_response('autenticado/index.html',context_instance=RequestContext(request))
+    numero_locales=Local.objects.all().count()
+    return render(request,'autenticado/index.html',{'numero_locales':numero_locales})
 
 def login(request):    
     auth.logout(request)
@@ -124,7 +125,35 @@ def addLocal(request):
 
     return render(request,'autenticado/addLocal.html',{'formulario':formulario})
 
+@login_required(login_url='index_general')
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def recomendar(request):
+    tiposLocales=TipoLocal.objects.all()
+    return render(request, 'autenticado/recomiendame.html',{'tipoLocales':tiposLocales})
 
-
+@login_required(login_url='index_general')
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def mis_locales(request, id_local):
+    if request.method=='POST':
+        if  id_local:
+            esMyLocal=Local.objects.get(id=id_local,usuario=request.user)
+            if esMyLocal:
+                formulario=ActualizarLocal(request.POST,instance=esMyLocal)
+                if formulario.is_valid():
+                    formulario.save()
+                    misLocales=Local.objects.filter(usuario=request.user)
+                    return render(request, 'autenticado/misLocales.html',{'locales':misLocales})
+                else:
+                    return render(request, 'autenticado/misLocales.html',{'formulario':formulario})
+    else:
+        if  id_local:
+            try:
+                esMyLocal=Local.objects.get(id=id_local,usuario=request.user)
+                formulario=ActualizarLocal(instance=esMyLocal)
+                return render(request, 'autenticado/misLocales.html',{'formulario':formulario})
+            except Exception , e:
+                pass
+    misLocales=Local.objects.filter(usuario=request.user)
+    return render(request, 'autenticado/misLocales.html',{'locales':misLocales})
 
 

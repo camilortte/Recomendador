@@ -1,0 +1,66 @@
+{% extends 'autenticado/base.html'%}
+{% load dajaxice_templatetags %}
+
+{%block titulo%}Recomienda {{user.nombre|title|truncatechars:15}}{%endblock titulo%}
+
+{% block  stylesInline %}
+		#map {
+		    background: #58B;
+		    height: 25em;
+		}
+ {%  endblock stylesInline %}
+
+{%block styles%}
+    <link href="{{STATIC_URL}}css/styles.css" rel="stylesheet">
+{%endblock styles%}
+
+{% block misLocales_active %}active{% endblock  %}
+
+{% block contenido %}
+     {% if formulario %}
+        <h1 class="text-center">Actualizacion de local</h1>
+        <form action="" method='post'>{%csrf_token%}
+            {% for field in formulario %}
+                {{ field.label_tag }} {{ field }}
+            {% endfor %}
+            <label></label>
+            <input type="submit" class="btn" value="Guardar"/>
+        </form>
+
+         {% if  formulario.errors or error%}
+            <div> <h5>Hay los siguiente errores: </h5></div>
+            {% for errors in formulario.errors.items %}
+              <div class="alert alert-error">
+              {% for error in errors %}
+                    {{error}}
+                  {% endfor %}
+                  </div>
+              {% endfor %}
+              {% if error %}
+                <div class="alert alert-error">{{error}}</div>
+              {% endif %}
+
+          {% endif %}
+
+     {% else %}
+      <h1 class="text-center">Nosotros te recomendamos</h1>
+        <table class="table table-striped">
+            <tr><TH>Nombre</TH><th>Nit</th><th>Dirección</th><th>Descripción</th></tr>
+                {% for local in locales %}
+                 <tr>
+                    <td><a href="{% url 'mis_locales' id_local=local.id  %}">{{ local.nombre | truncatechars:20 }}</a></td>
+                    <td>{{ local.nit | truncatechars:10}}</td>
+                    <td>{{ local.direccion | truncatechars:10}}</td>
+                    <td>{{ local.descripcion | truncatechars:20}}</td>
+
+                 </tr>
+                {% endfor %}
+
+      </table>
+    {% endif %}
+
+
+
+
+{% endblock contenido %}
+

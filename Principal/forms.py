@@ -125,4 +125,6 @@ class addLocalForm(forms.ModelForm):
 
 
 
-
+class ActualizarLocal(forms.ModelForm):
+    class Meta:
+        model=Local

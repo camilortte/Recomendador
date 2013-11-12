@@ -1,0 +1,56 @@
+{% extends 'autenticado/base.html'%}
+{% load dajaxice_templatetags %}
+
+{%block titulo%}Recomienda {{user.nombre|title|truncatechars:15}}{%endblock titulo%}
+
+{% block  stylesInline %}
+		#map {
+		    background: #58B;
+		    height: 25em;
+		}
+ {%  endblock stylesInline %}
+
+{%block styles%}
+    <link href="{{STATIC_URL}}css/styles.css" rel="stylesheet">
+{%endblock styles%}
+
+{% block recomiendame_active %}active{% endblock  %}
+
+{% block contenido %}
+  <h1 class="text-center">Nuestra recomendación</h1>
+  <div id="map" class="row-fluid"></div>
+    <br>
+  <select id="seleccion">
+    <option>Todos</option>
+    {% for tipoLocal in tipoLocales %}
+        <option value="{{ tipoLocal.id }}">
+         {{ tipoLocal.tipo}}
+        </option>
+    {% endfor %}
+  </select>
+  <select id="seleccion_recomendacion">
+    <option>Distancia</option>
+  </select>
+  <select id="seleccion_medio">
+    <option value="WALKING"> A pie</option>
+    <option value="DRIVING" >En automovil</option>
+  </select>
+
+  <input type="submit" class='btn' value="Recomiendame" id="botonRecomendacion"/>
+
+  <div >
+  <p id="resultado"></p>
+  </div>
+
+
+
+
+{% endblock contenido %}
+
+{% block scripts %}
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyCvfyKIBeaLLGXbF5HS73ZcfmDhPtM05rA&sensor=true"></script>
+	<script src="{{STATIC_URL}}/js/gmaps.js"></script>
+    <script src="{{STATIC_URL}}/js/aplicacion_recomiendame.js"></script>
+    {% dajaxice_js_import %}
+{% endblock scripts %}

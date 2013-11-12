@@ -47,12 +47,13 @@
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
                 <li><a  class="btn {% block home_active %}{% endblock  %}" href="{% url 'index_private'%}"><i class="icon-home"></i>Home</a></li><br>
+                <li><a  class="btn {% block recomiendame_active %}{% endblock  %}" href="{% url 'recomendar'%}">¿Que me recomiendas?</a></li><br>
                 <li><a  class="btn {% block tengoLocal_active %}{% endblock  %}" href="{% url 'add_local'%}">Tengo un local</a></li><br>
-                <li><a  class="btn {% block misLocales_active %}{% endblock  %}" href="{% url 'add_local'%}">Mis locales</a></li><br>
+                <li><a  class="btn {% block misLocales_active %}{% endblock  %}" href="{% url 'mis_locales'%}">Mis locales</a></li><br>
             </ul>
           </div><!--/.well -->
         </div><!--/span-->
-        <div class="span9">
+        <div class="span8">
         	{% block contenido %}{% endblock contenido %}         
         </div><!--/span-->
       </div><!--/row-->
