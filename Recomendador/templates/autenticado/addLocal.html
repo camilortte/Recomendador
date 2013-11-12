@@ -18,17 +18,19 @@
 {% block contenido %}
   <h1 class="text-center">Formulario para agregar locales comerciales</h1>
   <div id="map" class="row-fluid"></div>
-  <form action="" method='post'>{%csrf_token%}
+    <br>
+  <form action="" method='post' class="text-center">{%csrf_token%}
         {% for field in formulario %}
             {{ field.label_tag }} {{ field }}
         {% endfor %}
-        <input type="submit" value="enviar"/>
+        <br>
+        <input type="submit" value="enviar" class="btn"/>
   </form>
 
   {% if  formulario.errors or error%}
       <div> <h5>Hay los siguiente errores: </h5></div>
       {% for errors in formulario.errors.items %}
-          <div class="alert alert-error c">
+          <div class="alert alert-error ">
                {{ errors.field}}
             {% for error in errors %}
                 {{error}}

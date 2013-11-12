@@ -19,7 +19,7 @@
 {% block contenido %}
      {% if formulario %}
         <h1 class="text-center">Actualizacion de local</h1>
-        <form action="" method='post'>{%csrf_token%}
+        <form action="" method='post' class="text-center">{%csrf_token%}
             {% for field in formulario %}
                 {{ field.label_tag }} {{ field }}
             {% endfor %}

@@ -128,3 +128,12 @@ class addLocalForm(forms.ModelForm):
 class ActualizarLocal(forms.ModelForm):
     class Meta:
         model=Local
+
+class SugerenciaForm(forms.ModelForm):
+    class Meta:
+        model=Sugerencia
+        widgets = {
+            'email': forms.TextInput(attrs={'class': "input-xxlarge"}),
+            'nombre_usuario': forms.TextInput(attrs={'class': 'input-xxlarge'}),
+            'sugerencia': forms.Textarea(attrs={'rows': '10','columns':'10'}),
+        }

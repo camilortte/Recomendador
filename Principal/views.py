@@ -156,4 +156,18 @@ def mis_locales(request, id_local):
     misLocales=Local.objects.filter(usuario=request.user)
     return render(request, 'autenticado/misLocales.html',{'locales':misLocales})
 
+def sugerencias(request):
+    if request.method=='POST':
+        formulario=SugerenciaForm(request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect(index_private)
+        else:
+            return render(request, 'sugerencias.html',{'formulario':formulario})
 
+
+    if request.user.is_authenticated():
+        formulario=SugerenciaForm(initial={'email': request.user.email, 'nombre_usuario':request.user.nombre+" "+request.user.apellido})
+    else:
+        formulario=SugerenciaForm()
+    return render(request,'sugerencias.html',{'formulario':formulario,'user':request.user})

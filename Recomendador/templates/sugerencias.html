@@ -1,6 +1,6 @@
 {% extends 'base_general.html'%}
 
-{%block titulo%}Recomendador{%endblock titulo%}
+{%block titulo%}Recomiendame{%endblock titulo%}
 
 {%block styles%}
 	<link href="{{STATIC_URL}}css/styles.css" rel="stylesheet">
@@ -23,7 +23,8 @@
             <li><a href="{% url 'sugerencia' %}">¿Tienes sugerencias?</a></li>
             <li><a href="#about">Acerca de</a></li>
           </ul>
-                  <div class="btn-group navbar-text pull-right">
+            {% if user.is_authenticated %}
+            <div class="btn-group navbar-text pull-right">
               <a class="btn" href="#" data-toggle="dropdown"><i class="icon-user"></i> {{user.nombre|title|truncatechars:15}} {{user.apellido|title|truncatechars:15}}</a>
               <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
               <ul class="dropdown-menu">
@@ -32,6 +33,7 @@
                 <li><a href="{% url 'logout'%}"><i class="icon-off"></i> Cerrar sesi&oacute;n</a></li>
               </ul>
             </div>
+            {% endif %}
         </div><!--/.nav-collapse -->
       </div>
     </div>
@@ -41,22 +43,39 @@
 
 
 {% block cuerpo %}
-	<div class="container-fluid">
-      <div class="row-fluid">
-        <div class="span3">
-          <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-                <li><a  class="btn {% block home_active %}{% endblock  %}" href="{% url 'index_private'%}"><i class="icon-home"></i>Home</a></li><br>
-                <li><a  class="btn {% block recomiendame_active %}{% endblock  %}" href="{% url 'recomendar'%}">¿Que me recomiendas?</a></li><br>
-                <li><a  class="btn {% block tengoLocal_active %}{% endblock  %}" href="{% url 'add_local'%}">Tengo un local</a></li><br>
-                <li><a  class="btn {% block misLocales_active %}{% endblock  %}" href="{% url 'mis_locales'%}">Mis locales</a></li><br>
-            </ul>
-          </div><!--/.well -->
-        </div><!--/span-->
-        <div class="span8">
-        	{% block contenido %}{% endblock contenido %}         
-        </div><!--/span-->
-      </div><!--/row-->
-  </div>
-{% endblock cuerpo %}
+		<!--Resto del cuepro-->
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span12 text-center">
+					<h2>¿Tienes alguna sigerencia?</h2>
+                     <form action="" method='post'>{%csrf_token%}
+                        {% for field in formulario %}
+                            {{ field.label_tag }} {{ field }}
+                        {% endfor %}
+                        <br>
+                        <input type="submit" class="btn" value="enviar"/>
+                    </form>
+
+                {% if  formulario.errors or error%}
+                  <div> <h5>Hay los siguiente errores: </h5></div>
+                  {% for errors in formulario.errors.items %}
+                      <div class="alert alert-error c">
+                           {{ errors.field}}
+                        {% for error in errors %}
+                            {{error}}
+                        {% endfor %}
+                      </div>
+                  {% endfor %}
+                  {% if error %}
+                    <div class="alert alert-error">{{error}}</div>
+                  {% endif %}
+              {% endif %}
+
+				</div>
+			</div>
+			<br>
+			<br>
+
+		</div>
+	{% endblock cuerpo %}
 

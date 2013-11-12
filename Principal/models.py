@@ -132,7 +132,16 @@ class Local(models.Model):
         return self.nombre
 
 
+class Sugerencia(models.Model):
+    nombre_usuario= models.CharField(max_length=250)
+    email = models.EmailField(max_length=75)
+    sugerencia = models.TextField()
 
-    
+    class Meta:
+        verbose_name = u'Sugerencia'
+        verbose_name_plural = u'Sugerencias'
+
+    def __unicode__(self):
+        return self.nombre_usuario+" "+self.email
 
 

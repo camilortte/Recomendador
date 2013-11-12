@@ -24,7 +24,7 @@ urlpatterns = patterns('',
     url(r'^addlocal/','Principal.views.addLocal',name='add_local'),
     url(r'^recomienda/','Principal.views.recomendar',name='recomendar'),
     url(r'^mislocales(?:/(?P<id_local>\d+))?','Principal.views.mis_locales',name='mis_locales'),
-
+    url(r'^helpus/','Principal.views.sugerencias',name='sugerencia'),
     url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
 
 
