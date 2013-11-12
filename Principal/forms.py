@@ -117,6 +117,11 @@ class ChangePasswordForm(forms.Form):
 
 
 class addLocalForm(forms.ModelForm):
+    terms = forms.BooleanField(
+        error_messages={'required': 'Debes aceptar los terminos y condicioens.'},
+        label="Terminos y condiciones",
+        widget=forms.CheckboxInput(attrs={'class':'checkbox'}),
+    )
     class Meta:
         model = Local
         exclude = ['usuario']
